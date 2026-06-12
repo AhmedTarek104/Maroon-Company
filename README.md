@@ -1,7 +1,8 @@
 # Maroon Company — Hotel Booking Analytics & Customer Segmentation
 
 End-to-end data analysis project for a real Egyptian property 
-management company operating short-term studio rentals.
+management company operating short-term studio rentals across 
+multiple units in Egypt.
 
 ## Live Dashboards
 
@@ -13,13 +14,13 @@ management company operating short-term studio rentals.
 
 ## Business Context
 
-Maroon Company manages multiple studio units in Egypt, 
-accepting bookings through Hotels.com, Airbnb, Booking.com, 
-and direct channels. Guests pay in USD, EUR, SAR, and EGP, 
-creating a multi-currency revenue tracking challenge.
+Maroon Company manages multiple studio units in Egypt, accepting 
+bookings through Hotels.com, Airbnb, Booking.com, and direct 
+channels. Guests pay in USD, EUR, SAR, and EGP — creating a 
+multi-currency revenue tracking challenge.
 
 The company needed answers to two questions:
-1. Who are our most valuable customers and how do we treat 
+1. Who are our most valuable customers and how should we treat 
    them differently?
 2. Which studios, channels, and months drive the most revenue?
 
@@ -27,60 +28,84 @@ The company needed answers to two questions:
 
 ## What I Did
 
-**Data Cleaning (R)**
+### Data Cleaning (R)
 - Processed 1,152 real bookings across 16+ studio units
 - Handled 4 currencies (EGP, USD, EUR, SAR) with conversion 
-  to a unified EGP baseline
-- Cleaned Arabic and English customer names
-- Parsed dates and calculated derived metrics
+  to a unified EGP baseline for fair comparison
+- Cleaned Arabic and English mixed customer names
+- Parsed dates, handled missing values, calculated derived metrics
 
-**Customer Segmentation (K-Means Clustering)**
-- Aggregated bookings per customer: total spend, avg nights, 
+### Customer Segmentation (K-Means Clustering)
+- Aggregated bookings per customer: total spend, average nights, 
   booking frequency
 - Applied K-means clustering (K=3) on scaled features
-- Identified 3 distinct customer segments
+- Identified 3 distinct behavioral customer segments
+- Merged segment labels back to booking-level data for Tableau
 
-**Tableau Dashboards**
+### Tableau Dashboards
 - Built 2 interactive dashboards covering customer value 
   and operational analytics
+- Published to Tableau Public for live access
 
 ---
 
 ## Key Findings
 
-### Customer Segments
+### Customer Segments (K-Means, K=3)
 
-| Segment | Customers | Total Revenue (EGP) | Avg Nights | Avg Bookings |
-|---------|-----------|-------------------|------------|--------------|
-| High Value Loyalists | 862 customers | EGP 4,206,864 | High | High |
-| Budget Frequent | 14 customers | EGP 607,083 | Medium | Medium |
-| Low Engagement | 276 customers | EGP 506,297 | Low | Low |
+| Segment | Customers | Avg Spend (EGP) | Avg Nights | Avg Bookings | Insight |
+|---------|-----------|-----------------|------------|--------------|---------|
+| Repeat High Spenders | 37 | 5,207 | 2.9 | 5.65 | Most valuable — book frequently and spend the most |
+| Long Stay Guests | 79 | 150 | 9.04 | 1.38 | Stay longest per visit — ideal for weekly/monthly packages |
+| One-Time Visitors | 601 | 437 | 2.09 | 1.39 | Largest group — low engagement, single bookings |
 
-**High Value Loyalists generate 79% of total revenue** despite 
-being the largest segment, these customers should receive 
-priority service, loyalty offers, and direct booking incentives.
+**Key insight:** The 37 Repeat High Spenders represent only 5% of 
+customers but drive disproportionate revenue through frequent bookings 
+(avg 5.65x per customer). Retaining this segment is the company's 
+top priority.
 
 ### Operational Insights
-- **Total Revenue**: EGP 5,320,244 across 1,152 bookings
-- **705 unique customers** with a 29.93% repeat booking rate
-- **Most active month**: July 2024
-- **Top studio**: Studio-3-A
-- **Top channel**: Hotels.com (500+ bookings)
-- **Top payment**: Bank Account (616 bookings), Cash (513)
-- **Revenue peak**: August 2024 (EGP 386,151)
-- **USD is the dominant foreign currency**
+
+| Metric | Value |
+|--------|-------|
+| Total Revenue | EGP 5,320,244 |
+| Total Bookings | 1,152 |
+| Unique Customers | 705 |
+| Repeat Booking Rate | 29.93% |
+| Average Revenue per Booking | EGP 4,626 |
+| Most Active Month | July 2024 |
+| Peak Revenue Month | August 2024 (EGP 386,151) |
+| Top Studio | Studio-3-A |
+| Top Booking Channel | Hotels.com (500+ bookings) |
+| Top Payment Method | Bank Account (616 bookings) |
+| Most Used Foreign Currency | USD |
 
 ### Business Recommendations
-1. **Loyalty program for High Value Loyalists** — 79% of 
-   revenue from this segment. A simple loyalty discount for 
-   repeat bookings would protect this revenue.
-2. **Direct booking incentive** — Hotels.com dominates but 
-   charges commission. Converting top customers to direct 
-   booking saves 15-20% commission fees.
-3. **Revenue dips in Jan-Feb** — consider dynamic pricing 
-   or promotional rates in off-peak months.
-4. **Saudi market opportunity** — SAR payments growing, 
-   Arabic-speaking Gulf guests are a valuable segment.
+
+1. **Protect the Repeat High Spenders** — Only 37 customers but 
+   booking 5.6x on average. A loyalty discount or direct booking 
+   incentive for this group protects the highest-value revenue stream.
+
+2. **Convert Long Stay Guests to packages** — 79 guests averaging 
+   9 nights per stay are ideal candidates for weekly/monthly flat 
+   rates. This increases predictability and fills low-demand periods.
+
+3. **Reactivation campaign for One-Time Visitors** — 601 customers 
+   who booked once and never returned. A targeted offer could convert 
+   even 10% of this group into repeat customers.
+
+4. **Address revenue seasonality** — Peak in August 2024 
+   (EGP 386,151), trough in August 2023 (EGP 21,805). Dynamic 
+   pricing in peak months and promotional rates in slow months 
+   could smooth revenue.
+
+5. **Reduce channel dependency** — Hotels.com dominates all bookings. 
+   Over-reliance on one OTA means high commission costs. Direct 
+   booking incentives for existing customers would reduce this risk.
+
+6. **Capture the Gulf market** — SAR payments and Arabic-speaking 
+   Gulf guests represent a growing segment worth targeting directly 
+   through Arabic-language marketing.
 
 ---
 
@@ -88,9 +113,10 @@ priority service, loyalty offers, and direct booking incentives.
 
 | Tool | Purpose |
 |------|---------|
-| R (tidyverse, factoextra) | Data cleaning & K-means clustering |
+| R (tidyverse, factoextra, openxlsx) | Data cleaning, K-means clustering, export |
 | Tableau Public | Interactive dashboards |
 | Excel | Source data format |
+| Google Colab | Development environment |
 
 ---
 
@@ -98,15 +124,23 @@ priority service, loyalty offers, and direct booking incentives.
 
 | File | Description |
 |------|-------------|
-| `Maroon_project.ipynb` | Full R analysis: cleaning, clustering, export |
+| `Maroon_project.ipynb` | Full R analysis: cleaning, currency conversion, clustering, export |
 | `README.md` | This file |
 
-*Note: Raw booking data not included to protect client privacy.*
+*Note: Raw booking data is not included to protect client privacy.*
+
+---
+
+## Repository Topics
+
+`tableau` `r` `kmeans` `clustering` `data-analysis` 
+`hospitality` `egypt` `customer-segmentation` `business-intelligence`
 
 ---
 
 ## About the Client
 
-Maroon Company is an Egyptian property management company 
-operating short-term studio rentals, serving both local 
-and international guests through major OTA platforms.
+Maroon Company is an Egyptian property management company operating 
+short-term studio rentals, serving both local and international 
+guests through major OTA platforms including Hotels.com, Airbnb, 
+and Booking.com.
